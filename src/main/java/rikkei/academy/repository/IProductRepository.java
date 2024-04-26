@@ -14,4 +14,6 @@ public interface IProductRepository extends JpaRepository<Product, Long> {
     List<Product> findFirst10ByOrderByCreatedAtDesc();
 
     List<Product> findByCategory(Category category);
+
+    boolean existsByProductName(String productName);
 }

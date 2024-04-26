@@ -6,8 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.math.BigDecimal;
-import java.sql.Date;
-import java.sql.Timestamp;
+import java.time.LocalDate;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -46,9 +45,9 @@ public class Order {
     @Column(name = "receive_phone")
     private String receivePhone;
 
-    @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private Timestamp createdAt;
+    @Column(name = "created_at")
+    private LocalDate createdAt;
 
     @Column(name = "received_at")
-    private Date receivedAt;
+    private LocalDate receivedAt;
 }

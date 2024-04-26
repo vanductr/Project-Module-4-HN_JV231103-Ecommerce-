@@ -44,23 +44,7 @@ public class ProductController {
 
     // Chuyển đổi đối tượng Product sang DTO
     private ResponseEntity<?> getResponseEntity(List<Product> productList) {
-        List<ProductResponse> productResponseList = new ArrayList<>();
-        for (Product product : productList) {
-            ProductResponse productResponse;
-            productResponse = ProductResponse.builder()
-                    .sku(product.getSku())
-                    .productName(product.getProductName())
-                    .description(product.getDescription())
-                    .unitPrice(product.getUnitPrice())
-                    .stockQuantity(product.getStockQuantity())
-                    .image(product.getImage())
-                    .category(product.getCategory().getCategoryName())
-                    .createdAt(product.getCreatedAt())
-                    .updatedAt(product.getUpdatedAt())
-                    .build();
-            productResponseList.add(productResponse);
-        }
-        return new ResponseEntity<>(new ResponseDtoSuccess<>(productResponseList, HttpStatus.OK), HttpStatus.OK);
+        return getResponseEntity(productList);
     }
 
     // API: Danh sách Sản phẩm mới: Lấy ra 10 Sản phẩm được thêm gần đây nhất
