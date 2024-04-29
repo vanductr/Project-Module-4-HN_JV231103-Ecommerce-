@@ -29,5 +29,5 @@ public class ShoppingCart {
     private User user;
 
     @Column(name = "order_quantity")
-    private int orderQuantity;
+    private Integer orderQuantity; // Số lượng của Sản phẩm.
 }
