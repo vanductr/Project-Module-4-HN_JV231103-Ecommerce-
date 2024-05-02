@@ -32,6 +32,7 @@ public class APIControllerAdvice {
     }
 
     // Bắt ngoại lệ và thông báo cho Lỗi: Trùng tên Sản phẩm(Chia ra để hợp với: phương thức thêm mới và Update)
+    // Ngoại lệ tự Định nghĩa, nó được dùng chung cho tất cả những yêu cầu mà gặp lỗi trả về là: BAD_REQUEST
     @ExceptionHandler(DataExistException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public DataError<Map<String, String>> handleErr(DataExistException e) {
