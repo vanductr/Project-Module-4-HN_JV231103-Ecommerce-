@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import rikkei.academy.exception.DataExistException;
 import rikkei.academy.model.dto.request.FormLogin;
 import rikkei.academy.model.dto.request.FormRegister;
 import rikkei.academy.model.dto.response.JWTResponse;
@@ -22,7 +23,7 @@ public class AuthController {
     private IUserService userService;
 
     @PostMapping("/sign-in")
-    public ResponseEntity<JWTResponse> doLogin(@RequestBody FormLogin formLogin) {
+    public ResponseEntity<JWTResponse> doLogin(@RequestBody FormLogin formLogin) throws DataExistException {
         return new ResponseEntity<>(userService.login(formLogin), HttpStatus.OK);
     }
 

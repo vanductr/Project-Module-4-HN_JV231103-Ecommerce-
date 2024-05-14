@@ -130,9 +130,13 @@ public class ShoppingCartServiceIMPL implements IShoppingCartService {
     }
 
     @Override
-    public ShoppingCart checkout(Long userId) {
+    public ShoppingCart checkout(Long userId) throws DataExistException {
         User user = userRepository.findById(userId).orElseThrow(() -> new NoSuchElementException("Không tồn tại Id"));
         List<ShoppingCart> shoppingCartList = shoppingCartRepository.findByUser(user);
+
+        if (shoppingCartList.isEmpty()) {
+            throw new DataExistException("Giỏ hàng của bạn đang rỗng!!!", "Lỗi");
+        }
 
         for (ShoppingCart shoppingCart : shoppingCartList) {
             Integer cartItemQuantity = shoppingCart.getOrderQuantity();
