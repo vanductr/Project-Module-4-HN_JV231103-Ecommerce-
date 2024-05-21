@@ -35,4 +35,6 @@ public class DataValidator {
 
         return true; // Mật khẩu hợp lệ nếu vượt qua tất cả các kiểm tra
     }
+
+    // Phương thức kiểm tra có bị trùng username hay không.
 }

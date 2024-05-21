@@ -2,10 +2,13 @@ package rikkei.academy.service.product;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import rikkei.academy.exception.DataExistException;
+import rikkei.academy.model.dto.PageDTO;
 import rikkei.academy.model.dto.request.FormProductRequest;
+import rikkei.academy.model.dto.response.ProductResponse;
 import rikkei.academy.model.entity.Category;
 import rikkei.academy.model.entity.Product;
 import rikkei.academy.repository.ICategoryRepository;
@@ -92,5 +95,29 @@ public class ProductServiceIMPL implements IProductService {
         product.setCategory(categoryRepository.findById(formProductRequest.getCategory()).orElseThrow(() -> new NoSuchElementException("Không tồn tại Id")));
         product.setUpdatedAt(new Date());
         return productRepository.save(product);
+    }
+
+    // Phương thức lấy về DTO danh sách Tất cả sản phẩm có phân trang và sắp xếp.
+    @Override
+    public PageDTO<ProductResponse> getAllProductRolePermitAll(Pageable pageable) {
+        Page<Product> productPage = findAll(pageable);
+        List<ProductResponse> productResponseList = new ArrayList<>();
+        for (Product product : productPage) {
+            ProductResponse productResponse = ProductResponse.builder()
+                    .productId(product.getProductId())
+                    .sku(product.getSku())
+                    .productName(product.getProductName())
+                    .category(product.getCategory().getCategoryName())
+                    .updatedAt(product.getUpdatedAt())
+                    .createdAt(product.getCreatedAt())
+                    .image(product.getImage())
+                    .stockQuantity(product.getStockQuantity())
+                    .unitPrice(product.getUnitPrice())
+                    .description(product.getDescription())
+                    .build();
+
+            productResponseList.add(productResponse);
+        }
+        return new PageDTO<>(new PageImpl<>(productResponseList, pageable, productPage.getTotalElements()));
     }
 }

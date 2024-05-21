@@ -42,7 +42,7 @@ public class User {
     @Column(name = "phone", unique = true)
     private String phone;
 
-    @Column(name = "address")
+    @Column(name = "address", nullable = true)
     private String address;
 
     @Column(name = "created_at")

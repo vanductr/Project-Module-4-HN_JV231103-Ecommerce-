@@ -20,7 +20,7 @@ import java.util.List;
 
 
 public interface IUserService extends IGenericService<User, Long> {
-    boolean register(FormRegister formRegister);
+    String register(FormRegister formRegister);
 
     JWTResponse login(FormLogin formLogin) throws DataExistException;
 

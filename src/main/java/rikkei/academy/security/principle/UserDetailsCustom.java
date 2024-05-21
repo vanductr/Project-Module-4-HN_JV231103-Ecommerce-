@@ -34,7 +34,6 @@ public class UserDetailsCustom implements UserDetails {
                 .map(role -> new SimpleGrantedAuthority(role.getRoleName().name())).toList();
         return UserDetailsCustom.builder()
                 .id(user.getUserId())
-                .username(user.getUsername())
                 .fullName(user.getFullName())
                 .email(user.getEmail())
                 .password(user.getPassword())

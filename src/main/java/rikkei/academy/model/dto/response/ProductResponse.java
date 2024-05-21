@@ -10,6 +10,8 @@ import java.util.Date;
 @Getter
 @Builder
 public class ProductResponse {
+    private Long productId;
+
     private String sku;
 
     private String productName;

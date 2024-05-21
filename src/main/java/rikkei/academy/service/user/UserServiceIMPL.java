@@ -46,7 +46,10 @@ public class UserServiceIMPL implements IUserService{
     private IUserRepository userRepository;
 
     @Override
-    public boolean register(FormRegister formRegister) {
+    public String register(FormRegister formRegister) {
+        if (userRepository.existsByUsername(formRegister.getUsername())) {
+            return "username-error";
+        }
         User user = User.builder()
                 .email(formRegister.getEmail())
                 .username(formRegister.getUsername())
@@ -81,7 +84,7 @@ public class UserServiceIMPL implements IUserService{
             user.setRoleSet(roleSet);
         }
         userRepository.save(user);
-        return true;
+        return "true";
     }
 
     @Override

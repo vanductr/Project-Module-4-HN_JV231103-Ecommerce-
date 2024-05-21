@@ -21,4 +21,7 @@ public interface IUserRepository extends JpaRepository<User, Long> {
 
     @Query("SELECT u FROM User u WHERE NOT EXISTS (SELECT 1 FROM u.roleSet r WHERE r.roleName = :roleName)")
     Page<User> findByRoleNameNot(@Param("roleName") RoleName roleName, Pageable pageable);
+
+    // Phương thức để kiểm tra sự tồn tại của username
+    boolean existsByUsername(String username);
 }

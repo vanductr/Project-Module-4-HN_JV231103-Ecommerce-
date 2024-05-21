@@ -11,7 +11,7 @@ import org.springframework.http.HttpStatus;
 @Setter
 @Getter
 public class ResponseDtoSuccess<T> {
-    private T duLieu;
+    private T data;
 
-    private HttpStatus trangThaiHTTP;
+    private HttpStatus status;
 }
