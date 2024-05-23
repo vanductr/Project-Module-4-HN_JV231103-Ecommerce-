@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import rikkei.academy.exception.DataExistException;
 import rikkei.academy.model.dto.request.FormAddToCartRequest;
 import rikkei.academy.model.dto.request.FormChangePasswordRequest;
@@ -120,10 +121,16 @@ public class UserController {
     }
 
     // API: Cập nhật thông tin người dùng - /api.myservice.com/v1/user/account
+//    @PutMapping("/account")
+//    public ResponseEntity<?> updateUserDetail(@AuthenticationPrincipal UserDetailsCustom userDetailsCustom, @RequestBody FormEditUserRequest formEditUserRequest) {
+//        UserDetailResponse userDetailResponse = userService.editUserDetail(userDetailsCustom, formEditUserRequest);
+//        return new ResponseEntity<>(new ResponseDtoSuccess<>(userDetailResponse, HttpStatus.OK), HttpStatus.OK);
+//    }
+
     @PutMapping("/account")
-    public ResponseEntity<?> updateUserDetail(@AuthenticationPrincipal UserDetailsCustom userDetailsCustom, @RequestBody FormEditUserRequest formEditUserRequest) {
-        UserDetailResponse userDetailResponse = userService.editUserDetail(userDetailsCustom, formEditUserRequest);
-        return new ResponseEntity<>(new ResponseDtoSuccess<>(userDetailResponse, HttpStatus.OK), HttpStatus.OK);
+    public ResponseEntity<?> updateUserDetail(@AuthenticationPrincipal UserDetailsCustom userDetailsCustom, @RequestParam("file") MultipartFile file) {
+//        UserDetailResponse userDetailResponse = userService.editUserDetail(userDetailsCustom, formEditUserRequest);
+        return new ResponseEntity<>(new ResponseDtoSuccess<>("userDetailResponse", HttpStatus.OK), HttpStatus.OK);
     }
 
     // API: Thay đổi mật khẩu (payload : oldPass, newPass, confirmNewPass): - /api.myservice.com/v1/user/account/change-password

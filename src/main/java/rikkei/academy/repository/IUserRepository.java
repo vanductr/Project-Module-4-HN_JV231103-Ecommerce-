@@ -24,4 +24,7 @@ public interface IUserRepository extends JpaRepository<User, Long> {
 
     // Phương thức để kiểm tra sự tồn tại của username
     boolean existsByUsername(String username);
+
+    // Phương thức kiểm tra sự tồn tại của email
+    boolean existsByEmail(String email);
 }

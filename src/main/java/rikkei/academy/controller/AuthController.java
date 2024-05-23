@@ -30,13 +30,11 @@ public class AuthController {
 
     @PostMapping("sign-up")
     public ResponseEntity<?> doRegister(@RequestBody FormRegister formRegister) {
-        String check = userService.register(formRegister);
-        if (check.equals("true")) {
+        boolean check = userService.register(formRegister);
+        if (check) {
             Map<String, String> map = new HashMap<>();
             map.put("message", "Đã tạo tài khoản thành công.");
             return new ResponseEntity<>(map, HttpStatus.CREATED);
-        } else if (check.equals("username-error")) {
-            return new ResponseEntity<>(new DataError<>("username đã tồn tại", HttpStatus.BAD_REQUEST), HttpStatus.BAD_REQUEST);
         } else {
             throw new RuntimeException("Có lỗi gì đó xảy ra");
         }

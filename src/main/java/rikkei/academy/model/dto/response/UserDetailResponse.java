@@ -2,8 +2,12 @@ package rikkei.academy.model.dto.response;
 
 
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import rikkei.academy.model.entity.Role;
 
 import java.time.LocalDate;
+import java.util.Collection;
+import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,4 +30,6 @@ public class UserDetailResponse {
     private LocalDate createdAt;
 
     private LocalDate updatedAt;
+
+    private Collection<? extends GrantedAuthority> roleSet;
 }

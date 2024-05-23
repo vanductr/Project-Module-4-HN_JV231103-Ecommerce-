@@ -25,6 +25,12 @@ public class UserDetailsCustom implements UserDetails {
 
     private String email;
 
+    private String avatar;
+
+    private String phone;
+
+    private String address;
+
     private boolean status;
 
     private Collection<? extends GrantedAuthority> authorities;
@@ -34,11 +40,15 @@ public class UserDetailsCustom implements UserDetails {
                 .map(role -> new SimpleGrantedAuthority(role.getRoleName().name())).toList();
         return UserDetailsCustom.builder()
                 .id(user.getUserId())
+                .username(user.getUsername())
                 .fullName(user.getFullName())
                 .email(user.getEmail())
                 .password(user.getPassword())
                 .status(user.getStatus())
                 .authorities(authorityList)
+                .address(user.getAddress())
+                .avatar(user.getAvatar())
+                .phone(user.getPhone())
                 .build();
     }
 

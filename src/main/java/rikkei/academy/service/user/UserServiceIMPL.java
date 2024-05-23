@@ -7,9 +7,14 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import rikkei.academy.exception.AuthenticationFailedException;
 import rikkei.academy.exception.DataExistException;
+import rikkei.academy.exception.EmailAlreadyExistsException;
+import rikkei.academy.exception.UsernameAlreadyExistsException;
 import rikkei.academy.model.dto.request.FormChangePasswordRequest;
 import rikkei.academy.model.dto.request.FormEditUserRequest;
 import rikkei.academy.model.dto.request.FormLogin;
@@ -46,9 +51,12 @@ public class UserServiceIMPL implements IUserService{
     private IUserRepository userRepository;
 
     @Override
-    public String register(FormRegister formRegister) {
+    public boolean register(FormRegister formRegister) {
         if (userRepository.existsByUsername(formRegister.getUsername())) {
-            return "username-error";
+            throw new UsernameAlreadyExistsException("Username already exists");
+        }
+        if (userRepository.existsByEmail(formRegister.getEmail())) {
+            throw new EmailAlreadyExistsException("Email already exists");
         }
         User user = User.builder()
                 .email(formRegister.getEmail())
@@ -84,7 +92,7 @@ public class UserServiceIMPL implements IUserService{
             user.setRoleSet(roleSet);
         }
         userRepository.save(user);
-        return "true";
+        return true;
     }
 
     @Override
@@ -94,7 +102,7 @@ public class UserServiceIMPL implements IUserService{
         try {
             authentication = manager.authenticate(new UsernamePasswordAuthenticationToken(formLogin.getUsername(), formLogin.getPassword()));
         } catch (AuthenticationException e) {
-            throw new DataExistException("username hoặc password không chính xác", "Lỗi");
+            throw new AuthenticationFailedException("Invalid username or password");
         }
         UserDetailsCustom detailsCustom = (UserDetailsCustom) authentication.getPrincipal();
 
@@ -105,6 +113,9 @@ public class UserServiceIMPL implements IUserService{
                 .fullName(detailsCustom.getFullName())
                 .roleSet(detailsCustom.getAuthorities())
                 .status(detailsCustom.isStatus())
+                .phone(detailsCustom.getPhone())
+                .avatar(detailsCustom.getAvatar())
+                .address(detailsCustom.getAddress())
                 .accessToken(accessToken)
                 .build();
     }
@@ -143,7 +154,12 @@ public class UserServiceIMPL implements IUserService{
     @Override
     public UserDetailResponse getUserDetail(UserDetailsCustom userDetailsCustom) {
         User user = findById(userDetailsCustom.getId());
+
+        List<? extends GrantedAuthority> authorityList = user.getRoleSet().stream()
+                .map(role -> new SimpleGrantedAuthority(role.getRoleName().name())).toList();
+
         return UserDetailResponse.builder()
+                .roleSet(authorityList)
                 .username(user.getUsername())
                 .phone(user.getPhone())
                 .avatar(user.getAvatar())
