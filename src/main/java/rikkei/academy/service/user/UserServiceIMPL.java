@@ -11,6 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import rikkei.academy.exception.AuthenticationFailedException;
 import rikkei.academy.exception.DataExistException;
 import rikkei.academy.exception.EmailAlreadyExistsException;
@@ -28,6 +29,7 @@ import rikkei.academy.repository.IRoleRepository;
 import rikkei.academy.repository.IUserRepository;
 import rikkei.academy.security.jwt.JWTProvider;
 import rikkei.academy.security.principle.UserDetailsCustom;
+import rikkei.academy.service.StorageService;
 import rikkei.academy.validator.DataValidator;
 
 import java.time.LocalDate;
@@ -49,6 +51,9 @@ public class UserServiceIMPL implements IUserService{
 
     @Autowired
     private IUserRepository userRepository;
+
+    @Autowired
+    private StorageService storageService;
 
     @Override
     public boolean register(FormRegister formRegister) {
@@ -173,11 +178,18 @@ public class UserServiceIMPL implements IUserService{
 
     @Override
     public UserDetailResponse editUserDetail(UserDetailsCustom userDetailsCustom, FormEditUserRequest formEditUserRequest) {
+        String fileUrl = null;
+        MultipartFile file = formEditUserRequest.getImage();
+        if (file != null && !file.isEmpty()) {
+            // Upload file nếu file không rỗng
+            fileUrl = storageService.uploadFile(file);
+        }
+
         User user = findById(userDetailsCustom.getId());
         user.setEmail(formEditUserRequest.getEmail());
         user.setAddress(formEditUserRequest.getAddress());
         user.setFullName(formEditUserRequest.getFullName());
-        user.setAvatar(formEditUserRequest.getAvatar());
+        user.setAvatar(fileUrl);
         user.setPhone(formEditUserRequest.getPhone());
         user.setUpdatedAt(LocalDate.now());
 

@@ -17,15 +17,16 @@ import rikkei.academy.model.entity.Product;
 import rikkei.academy.model.entity.ShoppingCart;
 import rikkei.academy.model.entity.User;
 import rikkei.academy.security.principle.UserDetailsCustom;
+import rikkei.academy.service.StorageService;
 import rikkei.academy.service.order.IOrderService;
 import rikkei.academy.service.product.IProductService;
 import rikkei.academy.service.shopping_cart.IShoppingCartService;
 import rikkei.academy.service.user.IUserService;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/api.myservice.com/v1/user")
@@ -121,16 +122,12 @@ public class UserController {
     }
 
     // API: Cập nhật thông tin người dùng - /api.myservice.com/v1/user/account
-//    @PutMapping("/account")
-//    public ResponseEntity<?> updateUserDetail(@AuthenticationPrincipal UserDetailsCustom userDetailsCustom, @RequestBody FormEditUserRequest formEditUserRequest) {
-//        UserDetailResponse userDetailResponse = userService.editUserDetail(userDetailsCustom, formEditUserRequest);
-//        return new ResponseEntity<>(new ResponseDtoSuccess<>(userDetailResponse, HttpStatus.OK), HttpStatus.OK);
-//    }
-
     @PutMapping("/account")
-    public ResponseEntity<?> updateUserDetail(@AuthenticationPrincipal UserDetailsCustom userDetailsCustom, @RequestParam("file") MultipartFile file) {
-//        UserDetailResponse userDetailResponse = userService.editUserDetail(userDetailsCustom, formEditUserRequest);
-        return new ResponseEntity<>(new ResponseDtoSuccess<>("userDetailResponse", HttpStatus.OK), HttpStatus.OK);
+    public ResponseEntity<?> updateUserDetail(@AuthenticationPrincipal UserDetailsCustom userDetailsCustom,@ModelAttribute FormEditUserRequest formEditUserRequest) throws IOException {
+        // Cập nhật thông tin người dùng
+        UserDetailResponse userDetailResponse = userService.editUserDetail(userDetailsCustom, formEditUserRequest);
+
+        return new ResponseEntity<>(new ResponseDtoSuccess<>(userDetailResponse, HttpStatus.OK), HttpStatus.OK);
     }
 
     // API: Thay đổi mật khẩu (payload : oldPass, newPass, confirmNewPass): - /api.myservice.com/v1/user/account/change-password
