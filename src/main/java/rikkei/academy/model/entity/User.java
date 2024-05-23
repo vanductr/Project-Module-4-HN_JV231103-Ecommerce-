@@ -19,13 +19,15 @@ public class User {
     @Column(name = "user_id")
     private Long userId;
 
-    @Column(name = "username", unique = true, nullable = false)
+//    @Column(name = "username", unique = true, nullable = false)
+    @Column(name = "username", unique = true)
     private String username;
 
     @Column(name = "email", unique = true, nullable = false)
     private String email;
 
-    @Column(name = "fullname", nullable = false)
+//    @Column(name = "fullname", nullable = false)
+    @Column(name = "fullname")
     private String fullName;
 
     @Column(name = "status")
@@ -40,7 +42,7 @@ public class User {
     @Column(name = "phone", unique = true)
     private String phone;
 
-    @Column(name = "address", nullable = false)
+    @Column(name = "address", nullable = true)
     private String address;
 
     @Column(name = "created_at")

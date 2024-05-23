@@ -1,6 +1,6 @@
 package rikkei.academy.model.dto.response;
 
-import jakarta.persistence.*;
+
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import rikkei.academy.model.entity.Role;
@@ -14,18 +14,12 @@ import java.util.Set;
 @Setter
 @Getter
 @Builder
-public class JWTResponse {
-    private final String type = "Bearer";
-
-    private String accessToken;
-
-    private String fullName;
+public class UserDetailResponse {
+    private String username;
 
     private String email;
 
-    private Collection<? extends GrantedAuthority> roleSet;
-
-    private boolean status;
+    private String fullName;
 
     private String avatar;
 
@@ -33,4 +27,9 @@ public class JWTResponse {
 
     private String address;
 
+    private LocalDate createdAt;
+
+    private LocalDate updatedAt;
+
+    private Collection<? extends GrantedAuthority> roleSet;
 }

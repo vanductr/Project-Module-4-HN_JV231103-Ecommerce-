@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import rikkei.academy.model.dto.PageDTO;
 import rikkei.academy.model.dto.response.ProductResponse;
 import rikkei.academy.model.dto.response.ResponseDtoSuccess;
 import rikkei.academy.model.entity.Product;
@@ -37,9 +38,8 @@ public class ProductController {
     // API: Danh sách sản phẩm được bán(có phân trang và sắp xếp)
     @GetMapping
     public ResponseEntity<?> getAllProduct(Pageable pageable) {
-        Page<Product> productPage = productService.findAll(pageable);
-        List<Product> productList = productPage.getContent();
-        return getResponseEntity(productList);
+        PageDTO<ProductResponse> productResponsePageDTO = productService.getAllProductRolePermitAll(pageable);
+        return new ResponseEntity<>(new ResponseDtoSuccess<>(productResponsePageDTO, HttpStatus.OK), HttpStatus.OK);
     }
 
     // Chuyển đổi đối tượng Product sang DTO

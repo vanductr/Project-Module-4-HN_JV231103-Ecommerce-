@@ -25,6 +25,12 @@ public class UserDetailsCustom implements UserDetails {
 
     private String email;
 
+    private String avatar;
+
+    private String phone;
+
+    private String address;
+
     private boolean status;
 
     private Collection<? extends GrantedAuthority> authorities;
@@ -40,6 +46,9 @@ public class UserDetailsCustom implements UserDetails {
                 .password(user.getPassword())
                 .status(user.getStatus())
                 .authorities(authorityList)
+                .address(user.getAddress())
+                .avatar(user.getAvatar())
+                .phone(user.getPhone())
                 .build();
     }
 

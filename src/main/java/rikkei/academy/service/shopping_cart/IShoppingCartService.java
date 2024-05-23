@@ -20,5 +20,5 @@ public interface IShoppingCartService extends IGenericService<ShoppingCart, Long
 
     void clearShoppingCart(Long userId);
 
-    ShoppingCart checkout(Long userId);
+    ShoppingCart checkout(Long userId) throws DataExistException;
 }
