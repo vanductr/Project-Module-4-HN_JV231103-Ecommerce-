@@ -38,11 +38,11 @@ public class APIControllerAdvice {
     // Bắt ngoại lệ và thông báo cho Lỗi: Trùng tên Sản phẩm(Chia ra để hợp với: phương thức thêm mới và Update)
     // Ngoại lệ tự Định nghĩa, nó được dùng chung cho tất cả những yêu cầu mà gặp lỗi trả về là: BAD_REQUEST
     @ExceptionHandler(DataExistException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.CONFLICT)
     public DataError<Map<String, String>> handleErr(DataExistException e) {
         Map<String, String> map = new HashMap<>();
         map.put(e.getField(), e.getMessage());
-        return new DataError<>(map, HttpStatus.BAD_REQUEST);
+        return new DataError<>(map, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(UsernameAlreadyExistsException.class)
