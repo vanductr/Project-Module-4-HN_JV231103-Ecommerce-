@@ -202,8 +202,7 @@ public class AdminController {
     @GetMapping("/categories")
     public ResponseEntity<?> getAllCategory(Pageable pageable) {
         Page<Category> categoryPage = categoryService.findAll(pageable);
-        List<Category> categoryList = categoryPage.getContent();
-        return new ResponseEntity<>(new ResponseDtoSuccess<>(categoryList, HttpStatus.OK), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseDtoSuccess<>(categoryPage, HttpStatus.OK), HttpStatus.OK);
     }
 
     // API: Lấy về thông tin danh mục theo id
